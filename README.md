@@ -119,14 +119,19 @@ The Docker "image" remains pristine and "read-only", but while the "image" runs 
 
 Anyway to capture any changes in the filesystem that happened while the "image" was running as a "container" instance. we have to commit. 
 To do that, while the instance is running get its instance id aka "container id"
+
 `sudo docker ps`
+
 then commit that instance to a new image:
+
 `sudo docker commit 6239ad16278e researchers_library_installed`
+
 ![](README_assets/67f30aea693a49e0b0e36f85aeafbe5c.png)
 
 This effectively snapshots the "container" and saves it as a new "image" called `researchers_library_installed`
 
 Alternatively you could save the snapshot using a branchtag of the original image (Docker "best practices" seem to do this but I never do)
+
 `sudo docker commit 6239ad16278e researchers_library:installed_decrypted`
 
 Ok. that's it.
