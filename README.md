@@ -110,6 +110,27 @@ Scroll to make sure everything is there.
 
 ![](README_assets/d1bcdc4e52d448a7a8418af1f3964736.png)
 
+## Important final step
+(I forgot this in original version of this doc)
+At each boot of this container, you will have to repeat all these steps unless you "commit" the changes that occurred after boot BACK to the original image so they persist in the "image".
+
+Since Docker works like "snapshot"ed Virtual Machines, all the filesystem modifications that happened since boot will disappear once it is stopped or "powered off". 
+The Docker "image" remains pristine and "read-only", but while the "image" runs as a "container" instance, the filesystem changes are virtualized (copy-on-write or something, I dunno) and are discarded unless they are applied to the "image". 
+
+Anyway to capture any changes in the filesystem that happened while the "image" was running as a "container" instance. we have to commit. 
+To do that, while the instance is running get its instance id aka "container id"
+`sudo docker ps`
+then commit that instance to a new image:
+`sudo docker commit 6239ad16278e researchers_library_installed`
+![](README_assets/67f30aea693a49e0b0e36f85aeafbe5c.png)
+
+This effectively snapshots the "container" and saves it as a new "image" called `researchers_library_installed`
+
+Alternatively you could save the snapshot using a branchtag of the original image (Docker "best practices" seem to do this but I never do)
+`sudo docker commit 6239ad16278e researchers_library:installed_decrypted`
+
+Ok. that's it.
+
 ## Minor UI Fixes
 
 By default, the webapp UI is not configured to not allow in-browser reading. By default when you view a book you will only prompted for download., (Note the lack of "read in browser" option). 
